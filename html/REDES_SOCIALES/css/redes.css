@@ -107,3 +107,6 @@ button:hover::before {
     border: 1px solid black;
     border-radius: 20px;
 }
+.aside a, .aside a:visited {
+    color: #ffffff;
+}
