@@ -105,4 +105,5 @@ button:hover::before {
     width: 90vw;
     height: 96vh;
     border: 1px solid black;
+    border-radius: 20px;
 }
