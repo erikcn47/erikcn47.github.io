@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicios JavaScript</title>
+</head>
+<body>
+    <h1>Ejercicios JavaScript</h1>
+    <p id="Saludo">Hola buenos días</p>
+    <button type="button" onclick="document.getElementById('Saludo').innerHTML = 'Hoy vamos a hacer ejercicios de JavaScript'">Púlsame!</button>
+
+    <p>Ahora con distintos botones vamos a cambiar las imágenes</p>
+    <img id="Imagen" src="./img/normal.png" alt="Cara Normal" style="width: 200px;"><br>
+    <button type="button" onclick="document.getElementById('Imagen').src='./img/normal.png'">Cara Normal</button>
+    <button type="button" onclick="document.getElementById('Imagen').src='./img/feliz.png'">Cara Feliz</button>
+    <button type="button" onclick="document.getElementById('Imagen').src='./img/triste.webp'">Cara Triste</button>
+</body>
+</html>
