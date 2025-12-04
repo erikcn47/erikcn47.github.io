@@ -46,14 +46,14 @@
     document.body.style.color = 'black' ; 
     document.getElementById('sol').style.display = 'none' ; 
     document.getElementById('luna').style.display = 'inline'">
-        <img src="./img/sol.webp" alt="Fondo Claro" style="width: 100px; height: 100px;">
+        <img src="./img/sol.webp" alt="Fondo Claro" style="width: 100px; height: 100px;" loading="lazy">
     </button>
     <button id="luna" type="button" onclick="
     document.body.style.backgroundColor = 'black'; 
     document.body.style.color = 'white' ; 
     document.getElementById('luna').style.display = 'none' ; 
     document.getElementById('sol').style.display = 'inline'">
-        <img src="./img/luna.png" alt="Fondo Oscuro" style="width: 100px; height: 100px;">
+        <img src="./img/luna.png" alt="Fondo Oscuro" style="width: 100px; height: 100px;" loading="lazy">
     </button>
     <!--Aparecer y desaparecer una imagen-->
     <p>Vamos a desaparecer y a aparecer una imágen</p>
@@ -126,28 +126,31 @@
         &lt;/html&gt;
     </p>
 
-    <!-- <button type="button" onclick="
-        document.getElementsByTagName('p').style.color = 'blue';
-        document.getElementsByTagName('p').style.fontSize = '20px';
-        document.getElementsByTagName('p').style.fontWeight = 'bold'; /*para poner el texto en negrita */
-        document.getElementsByTagName('p').style.fontStyle = 'italic'; /*para poner el texto en cursiva */
-    ">Cambiar aspecto del texto</button> -->
+    <p>Ahora vamos a cambiar el aspecto de todos los párrafos de la página</p>
+
+    <!-- getElementByTagName: devuelve una colección de elementos, accederé a cada elemento en función de su posición -->
+    <button type="button" onclick="
+        document.getElementsByTagName('p')[0].style.color = 'green';
+        document.getElementsByTagName('p')[0].style.fontSize = '20px';
+        document.getElementsByTagName('p')[0].style.fontWeight = 'bold'; /*para poner el texto en negrita */
+        document.getElementsByTagName('p')[0].style.fontStyle = 'italic'; /*para poner el texto en cursiva */
+    ">Cambiar el aspecto del primer párrafo</button><br><br>
 
     <button onclick="cambiarEstilosGlobales()">Cambia el aspecto de todos los párrafos</button>
 
     <script>
-    function cambiarEstilosGlobales() {
-    // Selecciona TODOS los elementos <p> y los guarda en una lista (NodeList)
-    const parrafos = document.querySelectorAll('p');
+        function cambiarEstilosGlobales() {
+            // Selecciona TODOS los elementos <p> y los guarda en una lista (NodeList)
+            const parrafos = document.querySelectorAll('p');
 
-    // Itera sobre cada elemento individualmente para aplicar los estilos
-    parrafos.forEach(parrafo => {
-    parrafo.style.color = 'blue';
-    parrafo.style.fontSize = '15px';
-    parrafo.style.fontWeight = 'bold';
-    parrafo.style.fontStyle = 'italic';
-    });
-    }
+        // Itera sobre cada elemento individualmente para aplicar los estilos
+            parrafos.forEach(parrafo => {
+                parrafo.style.color = 'blue';
+                parrafo.style.fontSize = '15px';
+                parrafo.style.fontWeight = 'bold';
+                parrafo.style.fontStyle = 'italic';
+            });
+        }
     </script>
 </body>
 </html>
