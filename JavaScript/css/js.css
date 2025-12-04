@@ -1,3 +1,11 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    padding: 15px;
+}
 #aparecer, #sol {
     display: none;
 }
@@ -5,4 +13,25 @@
     width: 200px;
     height: 200px;
     display: inline-block;
+}
+.parrafo1 {
+    color: yellow;
+    font-style: oblique;
+}
+.clase-coleccion {
+    background-color: pink;
+    color: red;
+    font-size: 10px;
+}
+.button-luna {
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.button-sol {
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
 }

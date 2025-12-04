@@ -32,23 +32,25 @@
     <p id="Saludo">Hola buenos días</p>
     <button type="button" onclick="document.getElementById('Saludo').innerHTML = 'Hoy vamos a hacer ejercicios de JavaScript'">Púlsame!</button>
 
-    <p>Ahora con distintos botones vamos a cambiar las imágenes</p>
+    <p class="parrafo1">Ahora con distintos botones vamos a cambiar las imágenes</p>
     <!--Hay 3 imagenes, se muestra solo la primera y cada una tiene su botón-->
-    <img id="Imagen" src="./img/normal.png" alt="Cara Normal" style="width: 200px;" loading="lazy"><br>
+    <div class="container">
+        <img id="Imagen" src="./img/normal.png" alt="Cara Normal" style="width: 200px;" loading="lazy"><br>
+    </div><br>
     <button type="button" onclick="document.getElementById('Imagen').src='./img/normal.png'">Cara Normal</button>
     <button type="button" onclick="document.getElementById('Imagen').src='./img/feliz.png'">Cara Feliz</button>
     <button type="button" onclick="document.getElementById('Imagen').src='./img/triste.webp'">Cara Triste</button>
 
     <p>Ahora un botón que cambie el fondo de la página</p>
     <!--Efecto día y noche-->
-    <button id="sol" type="button" onclick="
+    <button class="button-sol" id="sol" type="button" onclick="
     document.body.style.backgroundColor = 'white' ; 
     document.body.style.color = 'black' ; 
     document.getElementById('sol').style.display = 'none' ; 
     document.getElementById('luna').style.display = 'inline'">
         <img src="./img/sol.webp" alt="Fondo Claro" style="width: 100px; height: 100px;" loading="lazy">
     </button>
-    <button id="luna" type="button" onclick="
+    <button class="button-luna" id="luna" type="button" onclick="
     document.body.style.backgroundColor = 'black'; 
     document.body.style.color = 'white' ; 
     document.getElementById('luna').style.display = 'none' ; 
@@ -130,10 +132,20 @@
 
     <!-- getElementByTagName: devuelve una colección de elementos, accederé a cada elemento en función de su posición -->
     <button type="button" onclick="
+        /*
         document.getElementsByTagName('p')[0].style.color = 'green';
         document.getElementsByTagName('p')[0].style.fontSize = '20px';
-        document.getElementsByTagName('p')[0].style.fontWeight = 'bold'; /*para poner el texto en negrita */
-        document.getElementsByTagName('p')[0].style.fontStyle = 'italic'; /*para poner el texto en cursiva */
+        document.getElementsByTagName('p')[0].style.fontWeight = 'bold'; <- para poner el texto en negrita 
+        document.getElementsByTagName('p')[0].style.fontStyle = 'italic'; <- para poner el texto en cursiva 
+        */
+        /*declaro la constante parrafo 0*/
+        const parrafo0 = document.getElementsByTagName('p')[0];
+        parrafo0.style.color='green';
+        parrafo0.style.fontSize='20px';
+        parrafo0.style.fontWeight='bold'; /*para poner el texto en negrita con una constante*/
+        parrafo0.style.fontStyle='italic'; /*para poner el texto en cursiva con una constante*/
+
+        document.getElementsByTagName('p')[1].classList.add('clase-coleccion'); /*añadir clase desde CSS */
     ">Cambiar el aspecto del primer párrafo</button><br><br>
 
     <button onclick="cambiarEstilosGlobales()">Cambia el aspecto de todos los párrafos</button>
