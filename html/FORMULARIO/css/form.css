@@ -1,28 +1,86 @@
-.input {
-    max-width: 190px;
-    background-color: #f5f5f5;
-    color: #242424;
-    padding: .15rem .5rem;
-    min-height: 40px;
-    border-radius: 4px;
-    outline: none;
-    border: none;
-    line-height: 1.15;
-    box-shadow: 0px 10px 20px -18px;
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, rgb(85, 193, 197), rgb(78, 143, 163));
+    color: black;
+}
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+form {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
-input:focus {
-    border-bottom: 2px solid #5b5fc7;
-    border-radius: 4px 4px 2px 2px;
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-align: center;
 }
 
-input:hover {
-    outline: 1px solid lightgrey;
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="color"],
+input[type="genero"],
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid grey;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
-.button {
+input[type="submit"],
+input[type="reset"] {
     padding: 10px 20px;
-    border-radius: 20px;
+    color: white;
     background-color: grey;
+    border: 2px solid black;
+    border-radius: 10px;
     cursor: pointer;
+    margin: 5px;
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+    background: linear-gradient(to right, rgb(85, 193, 197), rgb(78, 143, 163));
+}
+
+input[type=color] {
+    padding: 5px;
+    height: 40px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+}
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid grey;
+    border-radius: 10px;
+    resize: vertical;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+#phone_number, #birthdate {
+    text-align: center;
+    width: 100%;
 }
