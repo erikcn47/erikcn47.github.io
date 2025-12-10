@@ -25,11 +25,11 @@ body {
 .aside {
     width: 200px;
     padding: 10px;
-    background: linear-gradient( to bottom , green , yellow);
+    background: linear-gradient( to bottom , rgb(255, 0, 0) , rgb(255, 148, 61));
     }
 .main {
     padding: 10px;
-    background: linear-gradient(to right , rgb(0, 185, 0), rgb(194, 194, 0));
+    background: linear-gradient(to right , rgb(255, 0, 0) , rgb(255, 148, 61));
     width: 100vw;
     }
 .footer {
@@ -46,19 +46,19 @@ body {
     letter-spacing: 5px;
     text-transform: uppercase;
     cursor: pointer;
-    color: green;
+    color: red;
     transition: all 1000ms;
     font-size: 15px;
     position: relative;
     overflow: hidden;
-    outline: 2px solid green;
+    outline: 2px solid red;
 }
 
 button:hover {
     color: #ffffff;
     transform: scale(1.1);
-    outline: 2px solid green;
-    box-shadow: 4px 5px 17px -4px green;
+    outline: 2px solid red;
+    box-shadow: 4px 5px 17px -4px red;
 }
 
 button::before {
@@ -68,7 +68,7 @@ button::before {
     top: 0;
     width: 0;
     height: 100%;
-    background-color:green;
+    background-color:red;
     transform: skewX(45deg);
     z-index: -1;
     transition: width 1000ms;
@@ -76,4 +76,8 @@ button::before {
 
 button:hover::before {
     width: 250%;
+}
+.img {
+    width: 300px;
+    height: auto;
 }
