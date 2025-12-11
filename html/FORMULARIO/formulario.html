@@ -28,20 +28,20 @@
 </head>
 <body>
     <h1>Formulario de Registro</h1>
-    <form>
+    <form action="#" method="post">
         <h2>Información Personal</h2>
         <label for="nombre">Nombre</label>
-        <input class="input" type="text" id="nombre" name="nombre" placeholder="Tu Nombre" required><br><br>
+        <input type="text" id="nombre" name="nombre" placeholder="Tu Nombre" required><br><br>
 
         <label for="email">Email</label>
-        <input class="input" type="email" id="email" name="email" placeholder="tuemail@ejemplo.com" required><br><br>
+        <input type="email" id="email" name="email" placeholder="tuemail@ejemplo.com" required><br><br>
         
         <label for="password">Contraseña</label>
-        <input class="input" type="password" id="password" name="password" required><br><br>
+        <input type="password" id="password" name="password" required><br><br>
 
         <label for="gender">Género</label>
         <select id="gender" name="gender" required>
-            <option value="">Seleccione</option>
+            <option value="" disabled selected hidden>Seleccione</option>
             <option value="male">Masculino</option>
             <option value="female">Femenino</option>
             <option value="other">Otro</option>
@@ -53,13 +53,13 @@
 
         <h2>Otros Datos de Interés</h2>
         <label for="color" >Color Favorito</label>
-        <input class="input" type="color" id="color" name="color"><br><br>
+        <input type="color" id="color" name="color"><br><br>
 
         <label for="phone_number" >Número de Teléfono</label>
-        <input class="input" type="tel" id="phone_number" name="phone_number" placeholder="+34 123-456-789" pattern="\+[0-9]{1,3}[0-9]{9}" required><br><br>
+        <input type="tel" id="phone_number" name="phone_number" placeholder="+34 123-456-789" pattern="\+[0-9]{1,3}[0-9]{9}" required><br><br>
         
         <label for="birthdate">Fecha de Nacimiento</label>
-        <input class="input" type="date" id="birthdate" name="birthdate"><br><br>
+        <input type="date" id="birthdate" name="birthdate"><br><br>
 
         <label for="bio">Biografía Corta</label>
         <textarea id="bio" name="bio" rows="4" cols="50" placeholder="Escribe algo sobre ti..."></textarea><br><br>
