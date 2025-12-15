@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.contenedor {
+    display: flex;
+    flex-direction: row;
+}
+.div-top {
+    width: auto;
+    height: 20vh;
+    background-color: aqua;
+    border: solid 5px black;
+    border-radius: 15px;
+    text-align: center;
+}
+.div-left {
+    width: 30vw;
+    height: 60vh;
+    background-color: red;
+    border: dashed 5px black;
+    border-radius: 15px;
+    text-align: center;
+}
+.div-right {
+    width: 70vw;
+    height: 60vh;
+    background-color: green;
+    border: dotted 5px black;
+    border-radius: 15px;
+    text-align: center;
+}
+.div-bottom {
+    width: auto;
+    height: 20vh;
+    background-color: yellow;
+    border: double 6px black;
+    border-radius: 15px;
+    text-align: center;
+}

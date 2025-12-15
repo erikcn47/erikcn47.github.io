@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.contenedor {
+    display: flex;
+    flex-direction: row;
+}
+.div-rojo {
+    width: 70vw;
+    height: 20vh;
+    background-color: red;
+    border: 5px solid black;
+    border-radius: 15px;
+    text-align: center;
+    margin: auto;
+    font-size: 30px;
+    /* Centrar el texto del div */
+    line-height: 20vh;
+    font-family: arial;
+}
+.bola {
+    width: 33vw;
+    height: 50vh;
+    border-radius: 60%;
+    text-align: center;
+    /* Intentar hacer mejor la bola */
+    /* No es de todo un circulo */
+}
+.bola-verde {
+    background-color: green;
+    border: 5px dashed black;
+}
+.bola-cian {
+    background-color: cyan;
+    border: 5px dotted black;
+}
+.bola-amarillo {
+    background-color: yellow;
+    border: 6px double black;
+}
+.caja {
+    width: 50vw;
+    height: 20vh;
+    background-color: lightgray;
+    border: 5px ridge rgb(255, 19, 176);
+    text-align: center;
+    border-radius: 30px;
+}
+.caja-grande {
+    width: auto;
+    height: 30vh;
+    background-color: gray;
+    border: 5px outset rgb(0, 255, 42);
+    text-align: center;
+    margin-top: 10px;
+}

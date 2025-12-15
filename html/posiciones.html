@@ -7,6 +7,7 @@
     <meta name="Description" content="Posiciones con CSS">
     <meta name="Keywords" content="HTML, CSS, JavaScript, SQL, PHP, jQuery, XML, DOM, Bootstrap, Python, CSS, Diseño Web, Cuadrados, Circulos, Efectos Hover">
     <title>Posiciones</title>
+    <link rel="stylesheet" href="./css/posiciones.css">
     <!-- Para WhatsApp y Telegram -->
     <meta property="og:title" content="Posiciones">
     <meta property="og:description" content="Descubre contenido interesante, recursos útiles y mucho más.">
@@ -23,73 +24,6 @@
     <meta name="twitter:image" content="https://raw.githubusercontent.com/erikcn47/erikcn47.github.io/refs/heads/main/src/SMR.jpg">
     <meta name="twitter:url" content="https://erikcn47.github.io/">
     <!-- ---------------- -->
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-        .cuadro {
-            width: 200px;
-            height: 200px;
-        }
-        .arriba_izq {
-            position: relative;
-            top: 50px;
-            background-color: red;
-            opacity: 69%;
-        }
-        .arriba_izq:hover  {
-            background-color: fuchsia;
-            opacity: 100%;
-            box-shadow: 5px 10px 15px 20px red;
-            transform: rotate(-1030deg);
-            transition: all 1s ease;
-        }
-        .derecha {
-            position: absolute;
-            margin-left: calc(100vw - 200px);
-            background-color: green;
-            opacity: 30%;
-        }
-        .derecha:hover  {
-            background-color: black;
-            opacity: 100%;
-            box-shadow: 0px 0px 10px 5px green;
-            transform: skew(20deg, 30deg) rotate(1080deg);
-            transition: all 2s ease;
-        }
-        .pie {
-            width: 100vw;
-            height: 10vh;
-            background-color: yellow;
-            position: absolute;
-            margin-top: calc(100vh - 10vh);
-        }
-        .pie:hover  {
-            background-color: blue;
-            box-shadow: 0px -5px 10px 5px yellow;
-            transform: rotate(180deg);
-            transition: all 3s ease;
-        }
-        .bola {
-            width: 25vw;
-            height: 25vw;
-            background-color: fuchsia;
-            border-radius: 50%;
-            position: absolute;
-            margin-top: calc(50vh - 20vw);
-            margin-left: calc(50vw - 12.5vw);
-        }
-        .bola:hover  {
-            background-color: cyan;
-            width: 50vw;
-            height: 50vw;
-            transition: all 1s ease;
-            box-shadow: 0px 0px 10px 5px black;
-        }
-    </style>
 </head>
 <body>
     <div class="cuadro arriba_izq"></div>
