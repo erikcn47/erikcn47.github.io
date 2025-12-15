@@ -46,14 +46,14 @@ body {
     outline: 2px solid rgb(0, 183, 255);
     }
 
-button:hover {
+.button:hover {
     color: #ffffff;
     transform: scale(1.1);
     outline: 2px solid rgb(0, 183, 255);
     box-shadow: 4px 5px 17px -4px rgb(0, 183, 255);
     }
 
-button::before {
+.button::before {
     content: "";
     position: absolute;
     left: -50px;
@@ -66,7 +66,7 @@ button::before {
     transition: width 1000ms;
     }
 
-button:hover::before {
+.button:hover::before {
     width: 250%;
     }
 .nav {
@@ -109,4 +109,17 @@ button:hover::before {
 }
 .aside a, .aside a:visited {
     color: #ffffff;
+}
+.home {
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.home:hover {
+    background-color: black;
+    color: white;
 }

@@ -101,3 +101,16 @@ legend {
 .button:hover {
     background: linear-gradient(to right, rgb(85, 193, 197), rgb(78, 143, 163));
 }
+.home {
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.home:hover {
+    background-color: black;
+    color: white;
+}

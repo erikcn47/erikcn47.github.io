@@ -14,3 +14,16 @@ a {
         left: calc(50vw - 150px);
         top: calc(50vh - 300px);
 }
+.home {
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.home:hover {
+    background-color: black;
+    color: white;
+}
