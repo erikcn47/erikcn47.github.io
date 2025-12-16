@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Author" content="Erik">
+    <meta name="Description" content="Ejercicios de 2ºSMR">
+    <meta name="Keywords" content="HTML, CSS, JavaScript, SQL, PHP, jQuery, XML, DOM, Bootstrap, Python">
+    <link rel="shortcut icon" href="./img/historial.png"  type="image/x-icon">
+    <title>Historial de Navegación</title>
+    <link rel="stylesheet" href="./css/historial.css">
+
+    <!-- Para WhatsApp y Telegram -->
+    <meta property="og:title" content="Historial de Navegación">
+    <meta property="og:description" content="Descubre contenido interesante, recursos útiles y mucho más.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://erikcn47.github.io/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/erikcn47/erikcn47.github.io/refs/heads/main/src/SMR.jpg">
+    <meta property="og:site_name" content="Mi Página Web">
+    <!-- ---------------- -->
+
+    <!-- Para X (Twitter) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Historial de Navegación">
+    <meta name="twitter:description" content="Descubre contenido interesante, recursos útiles y mucho más.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/erikcn47/erikcn47.github.io/refs/heads/main/src/SMR.jpg">
+    <meta name="twitter:url" content="https://erikcn47.github.io/">
+    <!-- ---------------- -->
+</head>
+<body>
+
+    <header class="header">
+        <h1>Tu Historial Local</h1>
+        <button onclick="window.location.href='./../index.html'" class="button">⬅ Volver al Inicio</button>
+    </header>
+
+    <div class="contenedor-historial">
+        <h2>Últimas páginas visitadas:</h2>
+        <ul id="lista-donde-se-muestra">
+            </ul>
+        
+        <br>
+        <button onclick="borrarHistorial()" class="button" style="background-color: #d9534f;">🗑️ Borrar Historial</button>
+    </div>
+
+    <script>
+        // 1. Buscamos la caja fuerte (localStorage)
+        let historialGuardado = JSON.parse(localStorage.getItem('miHistorialWeb')) || [];
+        let lista = document.getElementById('lista-donde-se-muestra');
+
+        // 2. Comprobamos si está vacío
+        if (historialGuardado.length === 0) {
+            lista.innerHTML = "<p style='text-align:center'>Todavía no has visitado ninguna página.</p>";
+        } else {
+            // 3. Si hay datos, le damos la vuelta (.reverse) para ver lo más nuevo arriba
+            // Y creamos un elemento <li> por cada visita
+            historialGuardado.reverse().forEach(dato => {
+                lista.innerHTML += `
+                    <li>
+                        <strong>Página:</strong> ${dato.pagina} <br>
+                        <span class="hora">📅 ${dato.fecha}</span>
+                    </li>`;
+            });
+        }
+
+        // Función para limpiar
+        function borrarHistorial() {
+            if(confirm("¿Seguro que quieres borrar todo el historial?")) {
+                localStorage.removeItem('miHistorialWeb');
+                location.reload(); // Recarga la página para verla vacía
+            }
+        }
+    </script>
+</body>
+</html>
