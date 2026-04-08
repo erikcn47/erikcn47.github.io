@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Author" content="Erik">
+    <meta name="Description" content="Números en HTML5">
+    <meta name="Keywords" content="HTML, CSS, JavaScript, SQL, PHP, jQuery, XML, DOM, Bootstrap, Python, Números, Multimedia, Recursos, Contenido">
+    <link rel="shortcut icon" href="./img/number1.jpeg"  type="image/x-icon">
+    <title>Números</title>
+    <link rel="stylesheet" href="./css/numeros.css">
+    <!-- Para WhatsApp y Telegram -->
+    <meta property="og:title" content="Números">
+    <meta property="og:description" content="Descubre contenido interesante, recursos útiles y mucho más.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://erikcn47.github.io/">
+    <meta property="og:image" content="https://raw.githubusercontent.com/erikcn47/erikcn47.github.io/refs/heads/main/src/SMR.jpg">
+    <meta property="og:site_name" content="Mi Página Web">
+    <!-- ---------------- -->
+
+    <!-- Para X (Twitter) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Números">
+    <meta name="twitter:description" content="Descubre contenido interesante, recursos útiles y mucho más.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/erikcn47/erikcn47.github.io/refs/heads/main/src/SMR.jpg">
+    <meta name="twitter:url" content="https://erikcn47.github.io/">
+    <!-- ---------------- -->
+</head>
+<body>
+    <h1>Analizador de 3 números</h1>
+    <p>Haz clic en el botón para introducir los números y ver los resultados.</p>
+
+    <button onclick="iniciarPrograma()">Comenzar</button><br><br>
+
+    <button onclick="window.location.href='../index.html'" class="home">Volver a la página principal</button>
+
+    <script>
+        function iniciarPrograma() {
+            // 1. Pedir los 3 números al usuario
+            let num1 = Number(prompt("Introduce el primer número:"));
+            let num2 = Number(prompt("Introduce el segundo número:"));
+            let num3 = Number(prompt("Introduce el tercer número:"));
+
+            // 2. Sacar el mayor y el menor
+            let mayor = Math.max(num1, num2, num3);
+            let menor = Math.min(num1, num2, num3);
+
+            // 3. Ordenar los números de mayor a menor
+            let numeros = [num1, num2, num3];
+            numeros.sort(function(a, b) { 
+                return b - a; 
+            });
+
+            // 4. Mostrar el resultado final en una alerta
+            alert("El número mayor es: " + mayor + 
+                "\nEl número menor es: " + menor + 
+                "\nLos números ordenados son: " + numeros);
+        }
+    </script>
+</body>
+</html>
