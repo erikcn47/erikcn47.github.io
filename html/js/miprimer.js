@@ -1,10 +1,11 @@
 //mi primer archivo js
-myName="Erik";
+let myName="Erik";
 console.log(myName);
 console.log(typeof(myName));
-edad=7;
+let edad=7;
 console.log(typeof(edad));
-edad=String(edad);
+let edadString=String(edad); // realizo la operación de Casting
 console.log("He cambiado el tipo de la variable");
-console.log(edad);
-console.log(typeof(edad));
+console.log(edadString);
+console.log(typeof(edadString));
+const PI=3.1416;
