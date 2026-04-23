@@ -10,8 +10,25 @@
     <script>
         alert('HOLA ES MARTES "MARISOL"'+ edad+ 'ES TU EDAD');
         document.write("el nombre es "+ myName+ "<h1>es mi nombre</h1>");
-        document.write("la edad es "+ edad);
-        document.write(PI);
+        document.write("la edad es "+ edad + '<br/>');
+        document.write("el valor de pi es: "+ PI + '<br/>');
+
+        function saludar(){
+            console.log("Hola soy Erik 2026");
+            document.write("Hola soy Erik 2026" + '<br/>');
+            window.alert("Hola soy Erik 2026");
+        }
+
+        saludar();
+
+        //funciones que devuelven un valor
+        let num1=10, num2=3;
+        function sumar(a, b){   //a y b son parametros
+            return sumar=a+b;
+        }
+
+        document.write("La suma es " + sumar(num1, num2));
+        //num1 y num2 son argumentos
     </script>
 </body>
 </html>

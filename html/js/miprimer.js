@@ -8,4 +8,4 @@ let edadString=String(edad); // realizo la operación de Casting
 console.log("He cambiado el tipo de la variable");
 console.log(edadString);
 console.log(typeof(edadString));
-const PI=3.1416;
+const PI = 3.1416;
