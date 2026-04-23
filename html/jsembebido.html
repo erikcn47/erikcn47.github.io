@@ -27,8 +27,11 @@
             return sumar=a+b;
         }
 
-        document.write("La suma es " + sumar(num1, num2));
+        //document.write("La suma es " + sumar(num1, num2));
         //num1 y num2 son argumentos
+        let suma= sumar(num1, num2);
+        document.write(`La suma de ${num1} y ${num2} es ${suma}`); //template string
+        console.log(`La suma de ${num1} \n y ${num2} es ${suma}`); // \n solo en consola y alert
     </script>
 </body>
 </html>
