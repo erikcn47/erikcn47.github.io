@@ -8,30 +8,36 @@
 </head>
 <body>
     <script>
+        //muestro un alert que lo que hace es mostrar un mensaje en una ventana emergente
         alert('HOLA ES MARTES "MARISOL"'+ edad+ 'ES TU EDAD');
+        //ahora muestro un mensaje directamente en la pagina web con document.write
         document.write("el nombre es "+ myName+ "<h1>es mi nombre</h1>");
         document.write("la edad es "+ edad + '<br/>');
         document.write("el valor de pi es: "+ PI + '<br/>');
 
+        //defino una funcion que no devuelve un valor utilizando los distintos tipos de salida
         function saludar(){
             console.log("Hola soy Erik 2026");
             document.write("Hola soy Erik 2026" + '<br/>');
             window.alert("Hola soy Erik 2026");
         }
 
+        //llamo a la funcion para mostrar el mensaje en la consola, en la pagina web y en una ventana emergente
         saludar();
 
         //funciones que devuelven un valor
         let num1=10, num2=3;
         function sumar(a, b){   //a y b son parametros
-            return sumar=a+b;
+            return sumar=a+b;   
         }
 
         //document.write("La suma es " + sumar(num1, num2));
         //num1 y num2 son argumentos
+        //guardo el resultado de la función en una variable para mostrarlo luego con distintos tipos de salida
         let suma= sumar(num1, num2);
         document.write(`La suma de ${num1} y ${num2} es ${suma}`); //template string
         console.log(`La suma de ${num1} \n y ${num2} es ${suma}`); // \n solo en consola y alert
+        //con el template string puedo escribir el mensaje de forma mas rápida y legible, sin necesidad de concatenar con el operador + y puedo incluir saltos de línea con <br>
     </script>
 </body>
 </html>
