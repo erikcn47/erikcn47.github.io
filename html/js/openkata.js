@@ -7,8 +7,13 @@ if (hasPizza == false) {
 } else {
     console.log(hasPizza);
 }*/
-let year = false;
+/*let year = false;
 
 if (year != true) {
+    console.log("Ok");
+}*/
+let year = 2023;
+
+if (year == 2023) {
     console.log("Ok");
 }
