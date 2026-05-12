@@ -114,3 +114,37 @@ legend {
     background-color: black;
     color: white;
 }
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+input[type="radio"] + label,
+label:has(input[type="radio"]) {
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: left;
+}
+
+.gender-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.interests-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+label:has(input[type="checkbox"]) {
+    color: black;
+    font-weight: normal;
+}
