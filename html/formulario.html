@@ -98,21 +98,6 @@
             
         });
     </script>
-    <script>
-        function enviarFormulario() {
-            const id = document.getElementById('id').value;
-            const nombre = document.getElementById('nombre').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value
-            const gender = document.querySelector('input[name="gender"]:checked').value;
-            const edad = document.getElementById('edad').value;
-            const intereses = Array.from(document.querySelectorAll('input[name="intereses"]:checked')).map(checkbox => checkbox.value);
-            const color = document.getElementById('color').value;
-            const phone_number = document.getElementById('phone_number').value;
-            const birthdate = document.getElementById('birthdate').value;
-            const bio = document.getElementById('bio').value;
-        }
-    </script>
     <button onclick="window.location.href='../index.html'" class="home">Volver a la página principal</button>
 </body>
 </html>
