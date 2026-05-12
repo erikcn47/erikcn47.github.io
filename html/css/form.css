@@ -5,7 +5,7 @@
 }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, rgb(85, 193, 197), rgb(78, 143, 163));
+    background: linear-gradient(to bottom, rgb(147, 251, 255), rgb(2, 174, 231));
     color: black;
 }
 h1 {
@@ -59,7 +59,7 @@ input[type="reset"] {
 
 input[type="submit"]:hover,
 input[type="reset"]:hover {
-    background: linear-gradient(to right, rgb(85, 193, 197), rgb(78, 143, 163));
+    background: linear-gradient(to bottom, rgb(147, 251, 255), rgb(78, 143, 163));
 }
 
 input[type=color] {
@@ -99,7 +99,7 @@ legend {
     margin: 5px;
 }
 .button:hover {
-    background: linear-gradient(to right, rgb(85, 193, 197), rgb(78, 143, 163));
+    background: linear-gradient(to bottom, rgb(147, 251, 255), rgb(78, 143, 163));
 }
 .home {
     margin: 20px;
