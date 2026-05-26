@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMR Tech & Repair — Villanueva de la Serena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#inicio" class="logo">
+        <span class="logo-square"></span>
+        <span class="logo-text">SMR <em>Tech & Repair</em></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#sobre-nosotros">Nosotros</a></li>
+        <li><a href="#productos">Productos</a></li>
+        <li><a href="#como-funciona">Cómo funciona</a></li>
+        <li><a href="#contacto" class="btn-nav">Pedir cita</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#servicios">Servicios</a>
+      <a href="#sobre-nosotros">Nosotros</a>
+      <a href="#productos">Productos</a>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#contacto">Pedir cita</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="inicio" class="hero">
+    <div class="hero-bg">
+      <div class="hero-grid"></div>
+      <div class="hero-blob b1"></div>
+      <div class="hero-blob b2"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge reveal">Servicio Técnico · Villanueva de la Serena</div>
+      <h1 class="hero-title reveal">
+        Tu PC al<br>
+        <span class="highlight">máximo<br>rendimiento</span>
+      </h1>
+      <p class="hero-sub reveal">Reparación especializada, montaje a medida y venta de componentes gaming. Servicio rápido, presupuesto sin compromiso.</p>
+      <div class="hero-ctas reveal">
+        <a href="#contacto" class="btn-primary">Solicitar presupuesto</a>
+        <a href="#servicios" class="btn-ghost">Ver servicios</a>
+      </div>
+      <div class="hero-stats reveal">
+        <div class="stat">
+          <span class="stat-num">+8 años</span>
+          <span class="stat-label">experiencia técnica</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">24–48h</span>
+          <span class="stat-label">diagnóstico garantizado</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">3 meses</span>
+          <span class="stat-label">garantía en reparaciones</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="pc-card">
+        <div class="pc-screen">
+          <div class="screen-glow"></div>
+          <div class="screen-lines">
+            <div class="sl sl1"></div>
+            <div class="sl sl2"></div>
+            <div class="sl sl3"></div>
+            <div class="sl sl4"></div>
+          </div>
+          <div class="screen-icon">⚙️</div>
+          <div class="screen-text">Sistema OK</div>
+          <div class="screen-bar">
+            <div class="bar-fill"></div>
+          </div>
+        </div>
+        <div class="pc-tag tag-green">Reparado ✓</div>
+        <div class="pc-tag tag-blue">3 meses garantía</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" class="services">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Lo que hacemos</span>
+        <h2>Servicios especializados<br>para cada necesidad</h2>
+        <p>Desde una reparación urgente hasta el montaje de tu PC gamer a medida. Todo con garantía y en el menor tiempo posible.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal" data-delay="0">
+          <div class="service-icon">🔍</div>
+          <h3>Diagnóstico</h3>
+          <p>Identificamos la causa raíz de cualquier avería hardware o software en máximo 24–48 horas.</p>
+          <div class="service-price">Desde <strong>15 €</strong></div>
+        </div>
+        <div class="service-card reveal" data-delay="1">
+          <div class="service-icon">🔧</div>
+          <h3>Reparación Hardware</h3>
+          <p>Sustitución de componentes, soldaduras, limpieza térmica y todo lo que tu equipo necesite.</p>
+          <div class="service-price">Desde <strong>25 €</strong></div>
+        </div>
+        <div class="service-card reveal featured" data-delay="2">
+          <div class="featured-badge">⭐ Más popular</div>
+          <div class="service-icon">🖥️</div>
+          <h3>Montaje a medida</h3>
+          <p>Ensamblamos tu PC gaming o de trabajo según tus especificaciones y presupuesto exactos.</p>
+          <div class="service-price">Desde <strong>50 €</strong></div>
+        </div>
+        <div class="service-card reveal" data-delay="3">
+          <div class="service-icon">💾</div>
+          <h3>Instalación Software</h3>
+          <p>Windows, Linux, drivers, suite ofimática, antivirus. Tu sistema listo para usar.</p>
+          <div class="service-price">Desde <strong>20 €</strong></div>
+        </div>
+        <div class="service-card reveal" data-delay="4">
+          <div class="service-icon">🗂️</div>
+          <h3>Recuperación de Datos</h3>
+          <p>Extraemos tus archivos de unidades dañadas o corruptas con las mejores herramientas del sector.</p>
+          <div class="service-price">Desde <strong>40 €</strong></div>
+        </div>
+        <div class="service-card reveal" data-delay="5">
+          <div class="service-icon">🌐</div>
+          <h3>Instalación de Redes</h3>
+          <p>Router, switch, puntos de acceso Wi-Fi. Configuración doméstica y para pequeñas empresas.</p>
+          <div class="service-price">Desde <strong>40 €</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE NOSOTROS -->
+  <section id="sobre-nosotros" class="about">
+    <div class="container about-inner">
+      <div class="about-visual reveal">
+        <div class="about-card">
+          <div class="about-avatar">EK</div>
+          <div class="about-info">
+            <strong>Erik Corraliza Naranjo</strong>
+            <span>Técnico especialista · CFGM SMR</span>
+          </div>
+          <div class="cert-tags">
+            <span>CompTIA A+</span>
+            <span>Redes LAN/WAN</span>
+            <span>Seguridad Informática</span>
+            <span>Hardware Gaming</span>
+          </div>
+        </div>
+        <div class="about-bubble b-left reveal">
+          <span class="bubble-icon">🎮</span>
+          <div>
+            <strong>Especialista gaming</strong>
+            <small>Conocimiento del sector desde dentro</small>
+          </div>
+        </div>
+        <div class="about-bubble b-right reveal">
+          <span class="bubble-icon">⚡</span>
+          <div>
+            <strong>Servicio en el día</strong>
+            <small>Presupuesto rápido y sin esperas</small>
+          </div>
+        </div>
+      </div>
+      <div class="about-text reveal">
+        <span class="section-label">Quiénes somos</span>
+        <h2>Nace para cubrir un vacío real en Villanueva de la Serena</h2>
+        <p>En una localidad de 25.000 habitantes, los vecinos que necesitaban reparar un equipo se veían obligados a enviarlo fuera por mensajería, con los costes y riesgos que eso supone. <strong>SMR Tech & Repair nace para acabar con eso.</strong></p>
+        <p>Somos un servicio técnico local de referencia, ágil y especializado, con foco especial en el segmento gamer y entusiasta de la tecnología. Cada intervención cuenta con garantía mínima de 3 meses.</p>
+        <div class="about-values">
+          <div class="value">
+            <div class="value-icon">🏆</div>
+            <div>
+              <strong>Calidad técnica</strong>
+              <span>Formación CFGM SMR aplicada a cada reparación</span>
+            </div>
+          </div>
+          <div class="value">
+            <div class="value-icon">💬</div>
+            <div>
+              <strong>Trato de proximidad</strong>
+              <span>Te explicamos todo con claridad, sin tecnicismos</span>
+            </div>
+          </div>
+          <div class="value">
+            <div class="value-icon">💲</div>
+            <div>
+              <strong>Precios competitivos</strong>
+              <span>Por debajo de grandes superficies, con el mismo nivel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS -->
+  <section id="productos" class="products">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Tienda</span>
+        <h2>Componentes y periféricos<br>gaming en stock</h2>
+        <p>Vendemos los componentes que instalamos. Precio justo, asesoramiento incluido, disponibilidad inmediata.</p>
+      </div>
+      <div class="products-grid">
+        <div class="product-card reveal" data-delay="0">
+          <div class="product-img p1">
+            <div class="product-emoji">⌨️</div>
+          </div>
+          <div class="product-info">
+            <h4>Periféricos Gaming</h4>
+            <p>Teclados mecánicos, ratones, auriculares, mousepads, webcams</p>
+            <span class="product-price">20 – 200 €</span>
+          </div>
+        </div>
+        <div class="product-card reveal" data-delay="1">
+          <div class="product-img p2">
+            <div class="product-emoji">🖥️</div>
+          </div>
+          <div class="product-info">
+            <h4>Monitores</h4>
+            <p>1080p / 1440p / 4K, 60–240 Hz, HDMI/DisplayPort</p>
+            <span class="product-price">150 – 600 €</span>
+          </div>
+        </div>
+        <div class="product-card reveal" data-delay="2">
+          <div class="product-img p3">
+            <div class="product-emoji">🔲</div>
+          </div>
+          <div class="product-info">
+            <h4>Componentes PC</h4>
+            <p>CPUs, GPUs, RAM, SSD, fuentes de alimentación, cajas ATX</p>
+            <span class="product-price">30 – 800 €</span>
+          </div>
+        </div>
+        <div class="product-card reveal" data-delay="3">
+          <div class="product-img p4">
+            <div class="product-emoji">🧰</div>
+          </div>
+          <div class="product-info">
+            <h4>Consumibles</h4>
+            <p>Pasta térmica, cables, regletas, discos externos</p>
+            <span class="product-price">5 – 50 €</span>
+          </div>
+        </div>
+      </div>
+      <div class="products-note reveal">
+        <span>💬 ¿Buscas algo en concreto? Consúltanos y te lo conseguimos al mejor precio.</span>
+        <a href="#contacto" class="btn-primary small">Preguntar ahora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section id="como-funciona" class="how">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">El proceso</span>
+        <h2>Simple, transparente<br>y sin sorpresas</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal" data-delay="0">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h4>Recepción del equipo</h4>
+            <p>Traes tu equipo a nuestra tienda. Registramos la avería y te entregamos un resguardo numerado.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step reveal" data-delay="1">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h4>Diagnóstico en 24–48h</h4>
+            <p>Analizamos a fondo tu equipo e identificamos la causa raíz del problema.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step reveal" data-delay="2">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h4>Presupuesto cerrado</h4>
+            <p>Te enviamos un presupuesto detallado sin letra pequeña. Tú decides si proceder.</p>
+          </div>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step reveal" data-delay="3">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <h4>Reparación y entrega</h4>
+            <p>Ejecutamos la intervención, hacemos pruebas de stress test y te avisamos cuando esté listo.</p>
+          </div>
+        </div>
+      </div>
+      <div class="guarantee-banner reveal">
+        <div class="gb-icon">🛡️</div>
+        <div class="gb-text">
+          <strong>Garantía de 3 meses en todas las reparaciones</strong>
+          <span>Si el problema reaparece, volvemos a intervenir sin coste adicional.</span>
+        </div>
+        <a href="#contacto" class="btn-primary small">Solicitar cita</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGMENTOS -->
+  <section class="segments">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">¿Para quién?</span>
+        <h2>Un servicio para cada perfil</h2>
+      </div>
+      <div class="seg-grid">
+        <div class="seg-card reveal" data-delay="0">
+          <div class="seg-icon">🎮</div>
+          <h3>Gamers y entusiastas</h3>
+          <p>Montaje de PCs a medida, upgrades de GPU/RAM, periféricos de alto rendimiento. Sabemos de lo que hablamos porque somos uno más.</p>
+          <ul>
+            <li>✓ Montaje personalizado</li>
+            <li>✓ Optimización de rendimiento</li>
+            <li>✓ Asesoramiento técnico real</li>
+          </ul>
+        </div>
+        <div class="seg-card reveal" data-delay="1">
+          <div class="seg-icon">🏠</div>
+          <h3>Particulares y hogar</h3>
+          <p>Portátil lento, virus, pantalla rota o Windows que no arranca. Lo solucionamos rápido y te lo explicamos de forma sencilla.</p>
+          <ul>
+            <li>✓ Diagnóstico sin compromiso</li>
+            <li>✓ Trato cercano y transparente</li>
+            <li>✓ Precio justo, sin sorpresas</li>
+          </ul>
+        </div>
+        <div class="seg-card reveal" data-delay="2">
+          <div class="seg-icon">💼</div>
+          <h3>Micropymes y autónomos</h3>
+          <p>Tus equipos son tu herramienta de trabajo. Mantenimiento preventivo, redes, soporte técnico urgente cuando más lo necesitas.</p>
+          <ul>
+            <li>✓ Soporte técnico prioritario</li>
+            <li>✓ Instalación de redes empresariales</li>
+            <li>✓ Mantenimiento preventivo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="contact">
+    <div class="container contact-inner">
+      <div class="contact-info reveal">
+        <span class="section-label">Contacto</span>
+        <h2>¿Tienes un equipo con problemas?<br>Hablemos.</h2>
+        <p>Pide tu cita previa o consúltanos sin compromiso. Respondemos rápido.</p>
+        <div class="contact-details">
+          <div class="cd-item">
+            <span class="cd-icon">📍</span>
+            <div>
+              <strong>Ubicación</strong>
+              <span>Villanueva de la Serena, Badajoz</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <span class="cd-icon">🕐</span>
+            <div>
+              <strong>Horario</strong>
+              <span>Lun–Vie: 9:30–14:00 / 17:00–20:30</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <span class="cd-icon">💬</span>
+            <div>
+              <strong>WhatsApp</strong>
+              <span>Consultas y presupuestos rápidos</span>
+            </div>
+          </div>
+          <div class="cd-item">
+            <span class="cd-icon">📧</span>
+            <div>
+              <strong>Email</strong>
+              <span>info@smrtechrepair.es</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form-wrap reveal">
+        <form class="contact-form" id="contactForm">
+          <h3>Solicitar presupuesto</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre *</label>
+              <input type="text" id="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label for="telefono">Teléfono *</label>
+              <input type="tel" id="telefono" placeholder="600 000 000" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="tu@email.com">
+          </div>
+          <div class="form-group">
+            <label for="servicio">Tipo de servicio *</label>
+            <select id="servicio" required>
+              <option value="" disabled selected>Selecciona un servicio</option>
+              <option>Diagnóstico</option>
+              <option>Reparación hardware</option>
+              <option>Montaje a medida</option>
+              <option>Instalación software</option>
+              <option>Recuperación de datos</option>
+              <option>Instalación de redes</option>
+              <option>Compra de productos</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Describe el problema o consulta *</label>
+            <textarea id="mensaje" rows="4" placeholder="Cuéntanos qué le pasa a tu equipo..." required></textarea>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" id="privacidad" required>
+            <label for="privacidad">Acepto la <a href="#">política de privacidad</a> y el tratamiento de mis datos según el RGPD.</label>
+          </div>
+          <button type="submit" class="btn-primary full">Enviar solicitud →</button>
+          <div class="form-success" id="formSuccess">
+            ✅ ¡Mensaje enviado! Te contactaremos en breve.
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#inicio" class="logo">
+          <span class="logo-square"></span>
+          <span class="logo-text">SMR <em>Tech & Repair</em></span>
+        </a>
+        <p>Servicio técnico informático especializado en Villanueva de la Serena. Calidad técnica, trato cercano y precios honestos.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="TikTok" class="social-link">TikTok</a>
+          <a href="#" aria-label="Instagram" class="social-link">Instagram</a>
+          <a href="#" aria-label="YouTube" class="social-link">YouTube</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h5>Servicios</h5>
+          <a href="#servicios">Diagnóstico</a>
+          <a href="#servicios">Reparación hardware</a>
+          <a href="#servicios">Montaje a medida</a>
+          <a href="#servicios">Instalación software</a>
+          <a href="#servicios">Recuperación de datos</a>
+        </div>
+        <div class="footer-col">
+          <h5>Empresa</h5>
+          <a href="#sobre-nosotros">Sobre nosotros</a>
+          <a href="#productos">Productos</a>
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h5>Legal</h5>
+          <a href="#">Aviso legal</a>
+          <a href="#">Política de privacidad</a>
+          <a href="#">Política de cookies</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 SMR Tech & Repair · Villanueva de la Serena · CIF en trámite</span>
+      <span>Desarrollado con ❤️ en Extremadura</span>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
