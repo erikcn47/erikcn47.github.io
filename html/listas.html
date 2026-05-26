@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minimal Tasks | Agenda & Productividad</title>
+  <meta name="description" content="Una aplicación de lista de tareas simple, moderna y minimalista conectada con Google Calendar y análisis de productividad mensual.">
+  
+  <!-- Estilos del Proyecto -->
+  <link rel="stylesheet" href="css/listas.css">
+</head>
+<body>
+
+  <!-- Contenedor de la Aplicación -->
+  <div id="app-container">
+    
+    <!-- Barra Lateral de Navegación -->
+    <aside id="sidebar">
+      <div id="brand">
+        <div class="logo-icon">
+          <i data-lucide="check-square"></i>
+        </div>
+        <span class="brand-name">Minimal Tasks</span>
+      </div>
+      
+      <nav id="main-nav">
+        <a href="#tasks" id="nav-tasks" class="nav-link active">
+          <i data-lucide="check-square"></i>
+          <span>Tareas Diarias</span>
+        </a>
+        <a href="#summary" id="nav-summary" class="nav-link">
+          <i data-lucide="bar-chart-3"></i>
+          <span>Resumen Mensual</span>
+        </a>
+        <a href="#settings" id="nav-settings" class="nav-link">
+          <i data-lucide="settings"></i>
+          <span>Ajustes</span>
+        </a>
+      </nav>
+      
+      <div id="sidebar-footer">
+        <div class="sidebar-action-row">
+          <span style="font-size: 0.8rem; font-weight: 500; color: var(--text-muted);">Apariencia</span>
+          <button id="theme-toggle" title="Cambiar Tema">
+            <i data-lucide="sun"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal -->
+    <main id="main-content">
+      
+      <!-- PESTAÑA: TAREAS DIARIAS -->
+      <section id="tab-tasks" class="tab-pane">
+        
+        <!-- Cabecera de Tareas -->
+        <header id="tasks-header">
+          <div class="header-title-area">
+            <h1>Hola, tu lista de tareas está lista</h1>
+            <span class="header-date" id="selected-date-text">Cargando fecha...</span>
+          </div>
+          <div class="header-actions">
+            <!-- Selector de Fecha Oculto activado por el botón calendario -->
+            <input type="date" id="date-picker-input" class="hidden">
+            <button class="btn-icon" id="btn-open-calendar" title="Seleccionar Fecha Específica" aria-label="Calendario">
+              <i data-lucide="calendar"></i>
+            </button>
+            <button class="btn-primary" id="btn-open-add-modal">
+              <i data-lucide="plus"></i> Nueva Tarea
+            </button>
+          </div>
+        </header>
+
+        <!-- Slider de Fechas (Semana rodante) -->
+        <div id="date-slider-container">
+          <div id="date-slider">
+            <!-- Generado dinámicamente por JS -->
+          </div>
+        </div>
+
+        <!-- Barra de Progreso Diaria -->
+        <div id="progress-container">
+          <div class="progress-header">
+            <span>Progreso del día</span>
+            <span id="tasks-progress-text">Calculando...</span>
+          </div>
+          <div class="progress-track">
+            <div id="progress-bar"></div>
+          </div>
+        </div>
+
+        <!-- Entrada rápida de Tarea -->
+        <div id="quick-add-container">
+          <input type="text" id="quick-add-input" class="input-minimalist" placeholder="Escribe una tarea rápida para hoy y presiona Enter...">
+          <button class="btn-primary" id="btn-quick-add" style="padding: 14px 20px;">
+            <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Lista de Tareas Pendientes -->
+        <section id="pending-tasks-section">
+          <h2 class="task-section-title">
+            <i data-lucide="circle" style="color: var(--accent); width: 18px; height: 18px;"></i> Pendientes
+          </h2>
+          <div id="pending-tasks-list" class="task-list">
+            <!-- Cargado por JS -->
+          </div>
+        </section>
+
+        <!-- Lista de Tareas Completadas -->
+        <section id="completed-tasks-section">
+          <h2 class="task-section-title">
+            <i data-lucide="check-circle-2" style="color: var(--success); width: 18px; height: 18px;"></i> Completadas
+          </h2>
+          <div id="completed-tasks-list" class="task-list">
+            <!-- Cargado por JS -->
+          </div>
+        </section>
+
+        <!-- Eventos de Google Calendar -->
+        <section id="calendar-events-section" class="hidden">
+          <h2 class="task-section-title" style="color: var(--gcal-blue);">
+            <i data-lucide="calendar-days" style="color: var(--gcal-blue); width: 18px; height: 18px;"></i> Agenda Google Calendar
+          </h2>
+          <div id="calendar-events-list" class="task-list">
+            <!-- Cargado por JS -->
+          </div>
+        </section>
+
+      </section>
+
+      <!-- PESTAÑA: RESUMEN MENSUAL -->
+      <section id="tab-summary" class="tab-pane hidden">
+        
+        <header id="summary-header">
+          <h1>Resumen Mensual</h1>
+          <select id="summary-month-select" class="select-minimalist">
+            <!-- Rellenado por JS -->
+          </select>
+        </header>
+
+        <!-- Cuadrícula de Métricas -->
+        <div class="metrics-grid">
+          <div class="metric-card accent">
+            <span class="metric-title">Tareas Totales</span>
+            <span class="metric-value" id="metric-total-tasks">0</span>
+          </div>
+          <div class="metric-card success">
+            <span class="metric-title">Completadas</span>
+            <span class="metric-value" id="metric-completed-tasks">0</span>
+          </div>
+          <div class="metric-card accent">
+            <span class="metric-title">Tasa de Éxito</span>
+            <span class="metric-value" id="metric-completion-rate">0%</span>
+          </div>
+          <div class="metric-card gcal">
+            <span class="metric-title">Sincronizadas</span>
+            <span class="metric-value" id="metric-synced-tasks">0</span>
+          </div>
+        </div>
+
+        <!-- Cuadrícula de Gráficos -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <span class="chart-title">Actividad Diaria</span>
+            <div class="chart-wrapper chart-large">
+              <canvas id="chart-completed-daily"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <span class="chart-title">Distribución por Categoría</span>
+            <div class="chart-wrapper chart-doughnut">
+              <canvas id="chart-categories"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resumen Escrito Inteligente -->
+        <div class="written-summary-card">
+          <div class="summary-title-row">
+            <i data-lucide="sparkles"></i>
+            <h2>Resumen de Productividad</h2>
+          </div>
+          <div id="summary-text-container">
+            <!-- Rellenado por JS -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- PESTAÑA: AJUSTES -->
+      <section id="tab-settings" class="tab-pane hidden">
+        
+        <header id="settings-header">
+          <h1>Ajustes</h1>
+        </header>
+
+        <div class="settings-card">
+          <h3 class="settings-section-title">
+            <i data-lucide="calendar"></i> Sincronización con Google Calendar
+          </h3>
+          
+          <form id="settings-form" class="modal-form">
+            <div class="form-group">
+              <label class="form-label" for="input-client-id">Google Client ID (OAuth 2.0)</label>
+              <input type="password" id="input-client-id" class="input-minimalist" placeholder="Introduce tu Client ID..." style="font-family: monospace;">
+              <span class="form-help-text">Tu credencial de Google Cloud. Se almacena localmente de forma privada en tu navegador.</span>
+            </div>
+            
+            <div style="display: flex; gap: 12px; margin-top: 8px;">
+              <button type="submit" class="btn-primary">Guardar Credenciales</button>
+            </div>
+          </form>
+          
+          <div class="status-row">
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+              <span class="form-label">Estado de la cuenta Google</span>
+              <div id="calendar-status" class="status-badge status-disconnected">
+                <i data-lucide="x-circle"></i> Desconectado
+              </div>
+            </div>
+            <div>
+              <button id="btn-connect-google" class="btn-primary" style="background: var(--gcal-blue); box-shadow: 0 4px 14px rgba(66, 133, 244, 0.25);">
+                <i data-lucide="log-in"></i> Conectar Google
+              </button>
+              <button id="btn-disconnect-google" class="btn-secondary hidden">
+                <i data-lucide="log-out"></i> Desconectar
+              </button>
+            </div>
+          </div>
+
+          <!-- Guía para crear el Client ID -->
+          <div class="help-guide">
+            <h4>¿Cómo obtener tu Google Client ID?</h4>
+            <ol class="help-steps">
+              <li>Ve a la <strong><a href="https://console.cloud.google.com/" target="_blank" style="color: var(--accent); text-decoration: underline;">Google Cloud Console</a></strong>.</li>
+              <li>Crea un proyecto nuevo o selecciona uno existente.</li>
+              <li>Busca y habilita la API de <strong>Google Calendar API</strong> en la sección "API y servicios".</li>
+              <li>Dirígete a <strong>"Pantalla de consentimiento de OAuth"</strong>, selecciona el tipo de usuario "Externo", rellena los datos mínimos obligatorios y añade tu correo de pruebas. Añade el alcance (scope) <code>.../auth/calendar</code>.</li>
+              <li>En la pestaña <strong>"Credenciales"</strong>, haz clic en "Crear credenciales" -> <strong>"ID de cliente de OAuth"</strong>.</li>
+              <li>Selecciona el tipo de aplicación como <strong>"Aplicación web"</strong>.</li>
+              <li>En <strong>"Orígenes autorizados de JavaScript"</strong>, añade la URL local desde la cual ejecutas la app (por ejemplo, <code>http://localhost:8000</code>).</li>
+              <li>Haz clic en "Crear", copia el <strong>ID de cliente</strong> resultante y pégalo arriba.</li>
+            </ol>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODAL: AÑADIR / EDITAR TAREA -->
+  <div class="modal-overlay" id="task-modal">
+    <div class="modal-card">
+      <h2 id="modal-title">Nueva Tarea</h2>
+      
+      <form id="task-form" class="modal-form">
+        <div class="form-group">
+          <label class="form-label" for="task-input-title">Título de la tarea</label>
+          <input type="text" id="task-input-title" class="input-minimalist" placeholder="¿Qué vas a hacer?" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="task-input-desc">Descripción (opcional)</label>
+          <textarea id="task-input-desc" class="input-minimalist" placeholder="Añade detalles o notas adicionales..." rows="3" style="resize: none;"></textarea>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="task-input-date">Fecha</label>
+            <input type="date" id="task-input-date" class="input-minimalist" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="task-input-time">Hora (opcional)</label>
+            <input type="time" id="task-input-time" class="input-minimalist">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="task-input-category">Categoría</label>
+          <select id="task-input-category" class="input-minimalist" style="cursor: pointer;">
+            <option value="Personal">Personal 💖</option>
+            <option value="Trabajo">Trabajo 💼</option>
+            <option value="Estudio">Estudio 📚</option>
+            <option value="Salud">Salud 🍏</option>
+            <option value="Otros">Otros ⚙️</option>
+          </select>
+        </div>
+
+        <!-- Toggle Sincronización Google Calendar -->
+        <div class="form-group" id="sync-checkbox-wrapper">
+          <label class="checkbox-toggle-container">
+            <input type="checkbox" id="task-input-sync">
+            <div class="toggle-switch"></div>
+            <span class="form-label" style="cursor: pointer; display: flex; align-items: center; gap: 6px;">
+              <i data-lucide="calendar" style="width: 16px; height: 16px; color: var(--gcal-blue);"></i>
+              Sincronizar con Google Calendar
+            </span>
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="btn-cancel-task">Cancelar</button>
+          <button type="submit" class="btn-primary">Guardar Tarea</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PANTALLA DE CARGA (LOADING OVERLAY) -->
+  <div id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <span>Sincronizando con Google...</span>
+  </div>
+
+  <!-- Bibliotecas de Scripts en CDN -->
+  <!-- Chart.js para los gráficos del dashboard -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Iconos de Lucide -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+  <!-- Google Identity Services (GIS) para la autenticación de Calendar -->
+  <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+
+  <!-- Lógica de Entrada de la Aplicación -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
