@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda de Contactos - Firebase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            margin-top: 2rem;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-weight: 600;
+            font-size: 2rem;
+            text-align: center;
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.75rem;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .contacts-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        /* Estilizar la barra de desplazamiento (scrollbar) */
+        .contacts-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .contacts-list::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+        .contacts-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+        .contacts-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, background 0.2s;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: scale(1.02);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .contact-phone {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .btn-delete {
+            background-color: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            border-radius: 0.5rem;
+        }
+
+        .btn-delete:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2rem 0;
+            font-style: italic;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Mi Agenda</h1>
+        
+        <form id="agendaForm" class="form-group">
+            <input type="text" id="nameInput" placeholder="Nombre completo" required autocomplete="off">
+            <input type="tel" id="phoneInput" placeholder="Teléfono" autocomplete="off">
+            <button type="submit">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                Añadir Contacto
+            </button>
+        </form>
+
+        <ul id="contactsList" class="contacts-list">
+            <li class="empty-state">Cargando contactos...</li>
+        </ul>
+    </div>
+
+    <!-- Firebase SDK - Usando CDN para importar en el navegador sin empaquetador -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+
+        // La configuración de Firebase que ya tenías
+        const firebaseConfig = {
+            apiKey: "AIzaSyAG7gx0pQhWn_i-kFJHrnMS_cnj15rXuyk",
+            authDomain: "clientes-db-569aa.firebaseapp.com",
+            projectId: "clientes-db-569aa",
+            storageBucket: "clientes-db-569aa.firebasestorage.app",
+            messagingSenderId: "753846018831",
+            appId: "1:753846018831:web:5db321c7a985bdd8b3947a",
+            measurementId: "G-3EWRGNB297"
+        };
+
+        // Inicializar Firebase y Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Referencias a los elementos del DOM
+        const agendaForm = document.getElementById('agendaForm');
+        const nameInput = document.getElementById('nameInput');
+        const phoneInput = document.getElementById('phoneInput');
+        const contactsList = document.getElementById('contactsList');
+
+        // Manejar el formulario para añadir un nuevo contacto
+        agendaForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+
+            if (!name) return;
+
+            try {
+                // Deshabilitar el botón mientras se guarda
+                const btn = agendaForm.querySelector('button');
+                btn.disabled = true;
+                btn.innerHTML = 'Guardando...';
+
+                // Guardar en la colección "contactos" de Firestore
+                await addDoc(collection(db, "contactos"), {
+                    nombre: name,
+                    telefono: phone,
+                    createdAt: serverTimestamp()
+                });
+                
+                // Limpiar el formulario
+                nameInput.value = '';
+                phoneInput.value = '';
+                nameInput.focus();
+            } catch (error) {
+                console.error("Error al añadir contacto: ", error);
+                alert("Hubo un error al guardar el contacto en la base de datos.");
+            } finally {
+                const btn = agendaForm.querySelector('button');
+                btn.disabled = false;
+                btn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg> Añadir Contacto';
+            }
+        });
+
+        // Leer los contactos en tiempo real y mostrarlos
+        const q = query(collection(db, "contactos"), orderBy("createdAt", "desc"));
+        
+        onSnapshot(q, (snapshot) => {
+            contactsList.innerHTML = '';
+            
+            if (snapshot.empty) {
+                contactsList.innerHTML = '<li class="empty-state">No hay contactos aún. Añade uno arriba.</li>';
+                return;
+            }
+
+            snapshot.forEach((docSnapshot) => {
+                const contact = docSnapshot.data();
+                const id = docSnapshot.id;
+
+                const li = document.createElement('li');
+                li.className = 'contact-item';
+                
+                li.innerHTML = `
+                    <div class="contact-info">
+                        <span class="contact-name">${escapeHTML(contact.nombre)}</span>
+                        <span class="contact-phone">${escapeHTML(contact.telefono) || 'Sin teléfono'}</span>
+                    </div>
+                    <button class="btn-delete" data-id="${id}">Eliminar</button>
+                `;
+                
+                contactsList.appendChild(li);
+            });
+
+            // Añadir funcionalidad a los botones de eliminar
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    const id = e.target.getAttribute('data-id');
+                    if(confirm('¿Seguro que quieres eliminar este contacto?')) {
+                        try {
+                            await deleteDoc(doc(db, "contactos", id));
+                        } catch (error) {
+                            console.error("Error eliminando documento: ", error);
+                            alert("No se pudo eliminar el contacto.");
+                        }
+                    }
+                });
+            });
+        }, (error) => {
+            console.error("Error al escuchar contactos: ", error);
+            
+            // Un error muy común es que falten las reglas de seguridad de Firestore
+            let errorMessage = "Error al cargar contactos.";
+            if(error.code === 'permission-denied') {
+                errorMessage += " Permiso denegado. Revisa las reglas de seguridad de Firestore.";
+            }
+            
+            contactsList.innerHTML = `<li class="empty-state" style="color: var(--danger);">${errorMessage}</li>`;
+        });
+
+        // Utilidad básica para evitar XSS
+        function escapeHTML(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
