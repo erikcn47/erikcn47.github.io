@@ -98,9 +98,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
       // Solo inicializar la app una vez
       if (!appInitialized) {
-        await initTheme();
+        initTheme(); // Ejecución asíncrona pero sin bloquear
         initRouter();
-        await initCalendarAPI();
+        initCalendarAPI(); // Ejecución asíncrona pero sin bloquear
         initDateControls();
         initTaskOperations();
         initSettingsOperations();
