@@ -3,7 +3,7 @@
 // Importamos Firebase desde el CDN oficial
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
-import { getAuth, signInWithRedirect, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 import { 
   getFirestore, 
   collection, 
@@ -33,6 +33,12 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
+
+// Capturar errores silenciosos de redirección (ej: dominio no autorizado)
+getRedirectResult(auth).catch((error) => {
+  console.error("Error al volver de Google:", error);
+  alert("Error de autenticación: " + error.message + "\n\nAsegúrate de añadir este dominio a Firebase > Authentication > Settings > Authorized domains.");
+});
 
 let currentUser = null;
 
