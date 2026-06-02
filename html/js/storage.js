@@ -3,6 +3,7 @@
 // Importamos Firebase desde el CDN oficial
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+import { getAuth, signInWithRedirect, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 import { 
   getFirestore, 
   collection, 
@@ -30,6 +31,30 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+let currentUser = null;
+
+export function onAuthChange(callback) {
+  return onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    callback(user);
+  });
+}
+
+export function loginWithGoogle() {
+  return signInWithRedirect(auth, googleProvider);
+}
+
+export async function logout() {
+  await signOut(auth);
+}
+
+export function getCurrentUser() {
+  return currentUser;
+}
+
 
 const DEFAULT_SETTINGS = {
   clientId: '',
@@ -43,7 +68,8 @@ const DEFAULT_SETTINGS = {
  * @returns {Promise<Array>} Array de tareas.
  */
 export async function getTasks() {
-  const querySnapshot = await getDocs(collection(db, "tasks"));
+  if (!currentUser) return [];
+  const querySnapshot = await getDocs(collection(db, "users", currentUser.uid, "tasks"));
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
@@ -65,7 +91,8 @@ export async function addTask(taskData) {
     createdAt: new Date().toISOString()
   };
   
-  const docRef = await addDoc(collection(db, "tasks"), newTask);
+  if (!currentUser) throw new Error("Debes iniciar sesión");
+  const docRef = await addDoc(collection(db, "users", currentUser.uid, "tasks"), newTask);
   return { id: docRef.id, ...newTask };
 }
 
@@ -76,7 +103,8 @@ export async function addTask(taskData) {
  */
 export async function updateTask(updatedTask) {
   const { id, ...dataToUpdate } = updatedTask;
-  const taskRef = doc(db, "tasks", id);
+  if (!currentUser) throw new Error("Debes iniciar sesión");
+  const taskRef = doc(db, "users", currentUser.uid, "tasks", id);
   await updateDoc(taskRef, dataToUpdate);
   return true;
 }
@@ -87,7 +115,8 @@ export async function updateTask(updatedTask) {
  * @returns {Promise<Object>} Objeto indicando el ID eliminado.
  */
 export async function deleteTask(taskId) {
-  await deleteDoc(doc(db, "tasks", taskId));
+  if (!currentUser) throw new Error("Debes iniciar sesión");
+  await deleteDoc(doc(db, "users", currentUser.uid, "tasks", taskId));
   return { id: taskId };
 }
 
@@ -96,10 +125,15 @@ export async function deleteTask(taskId) {
  * @returns {Promise<Object>} Configuración actual.
  */
 export async function getSettings() {
-  const docRef = doc(db, "settings", "user_prefs");
-  const docSnap = await getDoc(docRef);
-  if (docSnap.exists()) {
-    return { ...DEFAULT_SETTINGS, ...docSnap.data() };
+  if (!currentUser) return { ...DEFAULT_SETTINGS };
+  try {
+    const docRef = doc(db, "users", currentUser.uid, "settings", "user_prefs");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { ...DEFAULT_SETTINGS, ...docSnap.data() };
+    }
+  } catch (error) {
+    console.error("Error al obtener configuraciones (posible falta de permisos):", error);
   }
   return { ...DEFAULT_SETTINGS };
 }
@@ -110,5 +144,6 @@ export async function getSettings() {
  */
 export async function saveSettings(settings) {
   const currentSettings = await getSettings();
-  await setDoc(doc(db, "settings", "user_prefs"), { ...currentSettings, ...settings });
+  if (!currentUser) return;
+  await setDoc(doc(db, "users", currentUser.uid, "settings", "user_prefs"), { ...currentSettings, ...settings });
 }
