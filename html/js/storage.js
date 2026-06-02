@@ -3,7 +3,7 @@
 // Importamos Firebase desde el CDN oficial
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 import { 
   getFirestore, 
   collection, 
@@ -35,6 +35,43 @@ const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
 let currentUser = null;
+let authResolve;
+const authReady = new Promise(resolve => {
+  authResolve = resolve;
+});
+
+// Autenticación automática (Anónima por defecto para evitar pedir login al usuario)
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUser = user;
+    authResolve(user);
+  } else {
+    try {
+      const credential = await signInAnonymously(auth);
+      currentUser = credential.user;
+      authResolve(credential.user);
+    } catch (error) {
+      console.warn("Inicio de sesión anónimo fallido, usando ID local persistente:", error.message);
+      authResolve(null);
+    }
+  }
+});
+
+// Función de ayuda para obtener un ID de usuario local persistente en caso de fallo de red
+function getLocalUserId() {
+  let localId = localStorage.getItem('minimal_tasks_anonymous_id');
+  if (!localId) {
+    localId = 'anon_' + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('minimal_tasks_anonymous_id', localId);
+  }
+  return localId;
+}
+
+// Obtener el ID de usuario actual (ya sea UID de Firebase o ID local)
+async function getUserId() {
+  await authReady;
+  return currentUser ? currentUser.uid : getLocalUserId();
+}
 
 export function onAuthChange(callback) {
   return onAuthStateChanged(auth, (user) => {
@@ -55,7 +92,6 @@ export function getCurrentUser() {
   return currentUser;
 }
 
-
 const DEFAULT_SETTINGS = {
   clientId: '',
   theme: 'dark',
@@ -68,8 +104,8 @@ const DEFAULT_SETTINGS = {
  * @returns {Promise<Array>} Array de tareas.
  */
 export async function getTasks() {
-  if (!currentUser) return [];
-  const querySnapshot = await getDocs(collection(db, "users", currentUser.uid, "tasks"));
+  const userId = await getUserId();
+  const querySnapshot = await getDocs(collection(db, "users", userId, "tasks"));
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
@@ -91,8 +127,8 @@ export async function addTask(taskData) {
     createdAt: new Date().toISOString()
   };
   
-  if (!currentUser) throw new Error("Debes iniciar sesión");
-  const docRef = await addDoc(collection(db, "users", currentUser.uid, "tasks"), newTask);
+  const userId = await getUserId();
+  const docRef = await addDoc(collection(db, "users", userId, "tasks"), newTask);
   return { id: docRef.id, ...newTask };
 }
 
@@ -103,8 +139,8 @@ export async function addTask(taskData) {
  */
 export async function updateTask(updatedTask) {
   const { id, ...dataToUpdate } = updatedTask;
-  if (!currentUser) throw new Error("Debes iniciar sesión");
-  const taskRef = doc(db, "users", currentUser.uid, "tasks", id);
+  const userId = await getUserId();
+  const taskRef = doc(db, "users", userId, "tasks", id);
   await updateDoc(taskRef, dataToUpdate);
   return true;
 }
@@ -115,8 +151,8 @@ export async function updateTask(updatedTask) {
  * @returns {Promise<Object>} Objeto indicando el ID eliminado.
  */
 export async function deleteTask(taskId) {
-  if (!currentUser) throw new Error("Debes iniciar sesión");
-  await deleteDoc(doc(db, "users", currentUser.uid, "tasks", taskId));
+  const userId = await getUserId();
+  await deleteDoc(doc(db, "users", userId, "tasks", taskId));
   return { id: taskId };
 }
 
@@ -125,8 +161,8 @@ export async function deleteTask(taskId) {
  * @returns {Promise<Object>} Configuración actual.
  */
 export async function getSettings() {
-  if (!currentUser) return { ...DEFAULT_SETTINGS };
-  const docRef = doc(db, "users", currentUser.uid, "settings", "user_prefs");
+  const userId = await getUserId();
+  const docRef = doc(db, "users", userId, "settings", "user_prefs");
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return { ...DEFAULT_SETTINGS, ...docSnap.data() };
@@ -140,6 +176,6 @@ export async function getSettings() {
  */
 export async function saveSettings(settings) {
   const currentSettings = await getSettings();
-  if (!currentUser) return;
-  await setDoc(doc(db, "users", currentUser.uid, "settings", "user_prefs"), { ...currentSettings, ...settings });
+  const userId = await getUserId();
+  await setDoc(doc(db, "users", userId, "settings", "user_prefs"), { ...currentSettings, ...settings });
 }
