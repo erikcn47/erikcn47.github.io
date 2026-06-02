@@ -3,7 +3,7 @@
 // Importamos Firebase desde el CDN oficial
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
-import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
 import { 
   getFirestore, 
   collection, 
@@ -34,12 +34,6 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-// Capturar errores silenciosos de redirección (ej: dominio no autorizado)
-getRedirectResult(auth).catch((error) => {
-  console.error("Error al volver de Google:", error);
-  alert("Error de autenticación: " + error.message + "\n\nAsegúrate de añadir este dominio a Firebase > Authentication > Settings > Authorized domains.");
-});
-
 let currentUser = null;
 
 export function onAuthChange(callback) {
@@ -49,8 +43,8 @@ export function onAuthChange(callback) {
   });
 }
 
-export function loginWithGoogle() {
-  return signInWithRedirect(auth, googleProvider);
+export async function loginWithGoogle() {
+  await signInWithPopup(auth, googleProvider);
 }
 
 export async function logout() {
@@ -132,14 +126,10 @@ export async function deleteTask(taskId) {
  */
 export async function getSettings() {
   if (!currentUser) return { ...DEFAULT_SETTINGS };
-  try {
-    const docRef = doc(db, "users", currentUser.uid, "settings", "user_prefs");
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return { ...DEFAULT_SETTINGS, ...docSnap.data() };
-    }
-  } catch (error) {
-    console.error("Error al obtener configuraciones (posible falta de permisos):", error);
+  const docRef = doc(db, "users", currentUser.uid, "settings", "user_prefs");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return { ...DEFAULT_SETTINGS, ...docSnap.data() };
   }
   return { ...DEFAULT_SETTINGS };
 }

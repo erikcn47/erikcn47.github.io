@@ -17,17 +17,9 @@ let activeTab = 'tasks'; // 'tasks', 'summary', 'settings'
 let editingTaskId = null;
 let googleEvents = [];
 let isFetchingGoogleEvents = false;
-let appInitialized = false;
 
 // Elementos del DOM
 const el = {
-  // Login / Layout
-  loginOverlay: document.getElementById('login-overlay'),
-  appContainer: document.getElementById('app-container'),
-  btnLogin: document.getElementById('btn-login'),
-  btnLogout: document.getElementById('btn-logout'),
-  userNameDisplay: document.getElementById('user-name-display'),
-
   // Pestañas / Navegación
   navTasks: document.getElementById('nav-tasks'),
   navSummary: document.getElementById('nav-summary'),
@@ -75,54 +67,22 @@ const el = {
 };
 
 // Inicialización de la aplicación al cargar el DOM
-window.addEventListener('DOMContentLoaded', () => {
-  // Configurar autenticación
-  el.btnLogin.addEventListener('click', () => {
-    storage.loginWithGoogle().catch((err) => {
-      console.error(err);
-      alert("Error al iniciar sesión: " + err.message);
-    });
-  });
-
-  el.btnLogout.addEventListener('click', async () => {
-    await storage.logout();
-  });
-
-  // Escuchar estado de sesión
-  storage.onAuthChange(async (user) => {
-    if (user) {
-      // Usuario logueado: mostrar app
-      el.loginOverlay.classList.add('hidden');
-      el.appContainer.classList.remove('hidden');
-      el.userNameDisplay.textContent = user.displayName || user.email;
-
-      // Solo inicializar la app una vez
-      if (!appInitialized) {
-        initTheme(); // Ejecución asíncrona pero sin bloquear
-        initRouter();
-        initCalendarAPI(); // Ejecución asíncrona pero sin bloquear
-        initDateControls();
-        initTaskOperations();
-        initSettingsOperations();
-        initSummaryOperations();
-        appInitialized = true;
-      }
-      
-      await updateAppView();
-      
-      if (window.lucide) {
-        window.lucide.createIcons();
-      }
-    } else {
-      // No logueado: mostrar login
-      el.loginOverlay.classList.remove('hidden');
-      el.appContainer.classList.add('hidden');
-      
-      if (window.lucide) {
-        window.lucide.createIcons();
-      }
-    }
-  });
+window.addEventListener('DOMContentLoaded', async () => {
+  await initTheme();
+  initRouter();
+  await initCalendarAPI();
+  initDateControls();
+  initTaskOperations();
+  initSettingsOperations();
+  initSummaryOperations();
+  
+  // Renderizar la vista inicial
+  await updateAppView();
+  
+  // Cargar iconos de Lucide
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 });
 
 // ==========================================
@@ -673,12 +633,7 @@ function formatTime(dateObj) {
 // ==========================================
 
 async function initCalendarAPI() {
-  let settings = { clientId: '' };
-  try {
-    settings = await storage.getSettings();
-  } catch (error) {
-    console.error("Error al obtener ajustes para Calendar API:", error);
-  }
+  const settings = await storage.getSettings();
   
   // Escuchar eventos de cambio de autenticación de Google
   window.addEventListener('calendar-auth-changed', async (e) => {
