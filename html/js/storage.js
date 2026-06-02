@@ -1,7 +1,35 @@
-// Módulo de almacenamiento local (localStorage)
+// Módulo de almacenamiento local -> Firebase Firestore
 
-const TASKS_KEY = 'minimal_tasks_app_tasks';
-const SETTINGS_KEY = 'minimal_tasks_app_settings';
+// Importamos Firebase desde el CDN oficial
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+import { 
+  getFirestore, 
+  collection, 
+  getDocs, 
+  addDoc, 
+  updateDoc, 
+  deleteDoc, 
+  doc, 
+  getDoc, 
+  setDoc 
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+// Tu configuración de Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBxvFsRhfNNCwYwHRmuO98dhjIBDzQnxAM",
+  authDomain: "lista-de-tareas-4ca70.firebaseapp.com",
+  projectId: "lista-de-tareas-4ca70",
+  storageBucket: "lista-de-tareas-4ca70.firebasestorage.app",
+  messagingSenderId: "747970631982",
+  appId: "1:747970631982:web:fe3f498ae7dcac8a3d02bf",
+  measurementId: "G-P94NJB4WR6"
+};
+
+// Inicializamos Firebase, Analytics y Firestore
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
 
 const DEFAULT_SETTINGS = {
   clientId: '',
@@ -11,31 +39,21 @@ const DEFAULT_SETTINGS = {
 };
 
 /**
- * Obtener la lista de tareas guardadas.
- * @returns {Array} Array de tareas.
+ * Obtener la lista de tareas guardadas desde Firestore.
+ * @returns {Promise<Array>} Array de tareas.
  */
-export function getTasks() {
-  const data = localStorage.getItem(TASKS_KEY);
-  return data ? JSON.parse(data) : [];
+export async function getTasks() {
+  const querySnapshot = await getDocs(collection(db, "tasks"));
+  return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 }
 
 /**
- * Guardar la lista de tareas.
- * @param {Array} tasks - Array de tareas a guardar.
- */
-export function saveTasks(tasks) {
-  localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
-}
-
-/**
- * Agregar una nueva tarea.
+ * Agregar una nueva tarea a Firestore.
  * @param {Object} taskData - Datos de la tarea a agregar.
- * @returns {Object} La tarea creada con su ID.
+ * @returns {Promise<Object>} La tarea creada con su ID.
  */
-export function addTask(taskData) {
-  const tasks = getTasks();
+export async function addTask(taskData) {
   const newTask = {
-    id: 'task_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
     title: taskData.title,
     description: taskData.description || '',
     date: taskData.date, // Formato YYYY-MM-DD
@@ -46,61 +64,51 @@ export function addTask(taskData) {
     synced: !!taskData.googleEventId,
     createdAt: new Date().toISOString()
   };
-  tasks.push(newTask);
-  saveTasks(tasks);
-  return newTask;
+  
+  const docRef = await addDoc(collection(db, "tasks"), newTask);
+  return { id: docRef.id, ...newTask };
 }
 
 /**
- * Actualizar una tarea existente.
+ * Actualizar una tarea existente en Firestore.
  * @param {Object} updatedTask - Tarea con los cambios aplicados.
- * @returns {boolean} True si se actualizó correctamente, false en caso contrario.
+ * @returns {Promise<boolean>} True si se actualizó correctamente.
  */
-export function updateTask(updatedTask) {
-  const tasks = getTasks();
-  const index = tasks.findIndex(t => t.id === updatedTask.id);
-  if (index !== -1) {
-    tasks[index] = { ...tasks[index], ...updatedTask };
-    saveTasks(tasks);
-    return true;
-  }
-  return false;
+export async function updateTask(updatedTask) {
+  const { id, ...dataToUpdate } = updatedTask;
+  const taskRef = doc(db, "tasks", id);
+  await updateDoc(taskRef, dataToUpdate);
+  return true;
 }
 
 /**
- * Eliminar una tarea por su ID.
+ * Eliminar una tarea por su ID en Firestore.
  * @param {string} taskId - ID de la tarea a eliminar.
- * @returns {Object|null} La tarea eliminada o null si no se encontró.
+ * @returns {Promise<Object>} Objeto indicando el ID eliminado.
  */
-export function deleteTask(taskId) {
-  const tasks = getTasks();
-  const index = tasks.findIndex(t => t.id === taskId);
-  if (index !== -1) {
-    const deletedTask = tasks[index];
-    tasks.splice(index, 1);
-    saveTasks(tasks);
-    return deletedTask;
-  }
-  return null;
+export async function deleteTask(taskId) {
+  await deleteDoc(doc(db, "tasks", taskId));
+  return { id: taskId };
 }
 
 /**
- * Obtener la configuración de la aplicación.
- * @returns {Object} Configuración actual.
+ * Obtener la configuración de la aplicación desde Firestore.
+ * @returns {Promise<Object>} Configuración actual.
  */
-export function getSettings() {
-  const data = localStorage.getItem(SETTINGS_KEY);
-  if (!data) {
-    return { ...DEFAULT_SETTINGS };
+export async function getSettings() {
+  const docRef = doc(db, "settings", "user_prefs");
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    return { ...DEFAULT_SETTINGS, ...docSnap.data() };
   }
-  return { ...DEFAULT_SETTINGS, ...JSON.parse(data) };
+  return { ...DEFAULT_SETTINGS };
 }
 
 /**
- * Guardar la configuración de la aplicación.
+ * Guardar la configuración de la aplicación en Firestore.
  * @param {Object} settings - Nueva configuración.
  */
-export function saveSettings(settings) {
-  const currentSettings = getSettings();
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify({ ...currentSettings, ...settings }));
+export async function saveSettings(settings) {
+  const currentSettings = await getSettings();
+  await setDoc(doc(db, "settings", "user_prefs"), { ...currentSettings, ...settings });
 }

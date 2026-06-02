@@ -67,17 +67,17 @@ const el = {
 };
 
 // Inicialización de la aplicación al cargar el DOM
-window.addEventListener('DOMContentLoaded', () => {
-  initTheme();
+window.addEventListener('DOMContentLoaded', async () => {
+  await initTheme();
   initRouter();
-  initCalendarAPI();
+  await initCalendarAPI();
   initDateControls();
   initTaskOperations();
   initSettingsOperations();
   initSummaryOperations();
   
   // Renderizar la vista inicial
-  updateAppView();
+  await updateAppView();
   
   // Cargar iconos de Lucide
   if (window.lucide) {
@@ -89,19 +89,24 @@ window.addEventListener('DOMContentLoaded', () => {
 // 1. TEMA Y DISEÑO
 // ==========================================
 
-function initTheme() {
-  const settings = storage.getSettings();
+async function initTheme() {
+  let settings = { theme: 'dark' };
+  try {
+    settings = await storage.getSettings();
+  } catch (error) {
+    console.error("Error cargando ajustes de Firebase:", error);
+  }
   applyTheme(settings.theme);
 
-  el.themeToggle.addEventListener('click', () => {
+  el.themeToggle.addEventListener('click', async () => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     applyTheme(newTheme);
-    storage.saveSettings({ theme: newTheme });
+    await storage.saveSettings({ theme: newTheme });
     
     // Si estamos en la pestaña de resumen, volver a dibujar los gráficos con los nuevos colores de tema
     if (activeTab === 'summary') {
-      renderMonthlySummary();
+      await renderMonthlySummary();
     }
   });
 }
@@ -133,14 +138,14 @@ function initRouter() {
   ];
 
   tabs.forEach(item => {
-    item.nav.addEventListener('click', (e) => {
+    item.nav.addEventListener('click', async (e) => {
       e.preventDefault();
-      switchTab(item.id);
+      await switchTab(item.id);
     });
   });
 }
 
-function switchTab(tabId) {
+async function switchTab(tabId) {
   activeTab = tabId;
   
   // Actualizar navegación activa
@@ -150,11 +155,11 @@ function switchTab(tabId) {
   if (tabId === 'tasks') {
     el.navTasks.classList.add('active');
     el.tabTasks.classList.remove('hidden');
-    updateAppView(); // Actualiza tareas del día
+    await updateAppView(); // Actualiza tareas del día
   } else if (tabId === 'summary') {
     el.navSummary.classList.add('active');
     el.tabSummary.classList.remove('hidden');
-    renderMonthlySummary();
+    await renderMonthlySummary();
   } else if (tabId === 'settings') {
     el.navSettings.classList.add('active');
     el.tabSettings.classList.remove('hidden');
@@ -170,9 +175,9 @@ function initDateControls() {
   // Ajustar el picker de fecha al valor de currentDate
   el.datePickerInput.value = currentDate;
 
-  el.datePickerInput.addEventListener('change', (e) => {
+  el.datePickerInput.addEventListener('change', async (e) => {
     currentDate = e.target.value;
-    updateAppView();
+    await updateAppView();
   });
 
   // Botón para abrir el input de fecha (calendario)
@@ -211,10 +216,10 @@ function renderDateSlider() {
       <span class="month-name">${monthsAbbr[dateObj.getMonth()]}</span>
     `;
 
-    dayCard.addEventListener('click', () => {
+    dayCard.addEventListener('click', async () => {
       currentDate = dateStr;
       el.datePickerInput.value = currentDate;
-      updateAppView();
+      await updateAppView();
     });
 
     el.dateSlider.appendChild(dayCard);
@@ -265,7 +270,7 @@ function initTaskOperations() {
 
       if (editingTaskId) {
         // ACTUALIZAR TAREA EXISTENTE
-        const originalTasks = storage.getTasks();
+        const originalTasks = await storage.getTasks();
         const originalTask = originalTasks.find(t => t.id === editingTaskId);
         const updatedTask = {
           ...originalTask,
@@ -292,7 +297,7 @@ function initTaskOperations() {
           updatedTask.synced = false;
         }
 
-        storage.updateTask(updatedTask);
+        await storage.updateTask(updatedTask);
       } else {
         // CREAR TAREA NUEVA
         let googleEventId = null;
@@ -303,24 +308,24 @@ function initTaskOperations() {
           });
         }
         
-        storage.addTask({
+        await storage.addTask({
           ...taskData,
           googleEventId
         });
       }
 
       closeTaskModal();
-      updateAppView();
+      await updateAppView();
     } catch (error) {
       alert('Error al sincronizar con Google Calendar: ' + error.message);
       // Guardar localmente de todos modos
       if (editingTaskId) {
-        storage.updateTask({ id: editingTaskId, ...taskData });
+        await storage.updateTask({ id: editingTaskId, ...taskData });
       } else {
-        storage.addTask(taskData);
+        await storage.addTask(taskData);
       }
       closeTaskModal();
-      updateAppView();
+      await updateAppView();
     } finally {
       hideLoadingState();
     }
@@ -328,23 +333,23 @@ function initTaskOperations() {
 
   // Agregar por barra rápida (Quick Add)
   el.btnQuickAdd.addEventListener('click', handleQuickAdd);
-  el.quickAddInput.addEventListener('keydown', (e) => {
+  el.quickAddInput.addEventListener('keydown', async (e) => {
     if (e.key === 'Enter') handleQuickAdd();
   });
 }
 
-function handleQuickAdd() {
+async function handleQuickAdd() {
   const title = el.quickAddInput.value.trim();
   if (!title) return;
   
-  storage.addTask({
+  await storage.addTask({
     title,
     date: currentDate,
     category: 'Personal'
   });
   
   el.quickAddInput.value = '';
-  updateAppView();
+  await updateAppView();
 }
 
 function openTaskModal(task = null) {
@@ -390,8 +395,8 @@ function closeTaskModal() {
 }
 
 // Renderizar tareas locales y calendario en la vista diaria
-function renderTasks() {
-  const allTasks = storage.getTasks();
+async function renderTasks() {
+  const allTasks = await storage.getTasks();
   const dayTasks = allTasks.filter(t => t.date === currentDate);
   
   const pending = dayTasks.filter(t => !t.completed);
@@ -486,9 +491,9 @@ async function handleToggleComplete(task) {
     console.error('Error al actualizar estado en Google Calendar:', err);
   }
 
-  storage.updateTask(updatedTask);
+  await storage.updateTask(updatedTask);
   hideLoadingState();
-  updateAppView();
+  await updateAppView();
 }
 
 async function handleDeleteTask(task) {
@@ -502,9 +507,9 @@ async function handleDeleteTask(task) {
       console.error('Error al eliminar en Google Calendar:', err);
     }
     
-    storage.deleteTask(task.id);
+    await storage.deleteTask(task.id);
     hideLoadingState();
-    updateAppView();
+    await updateAppView();
   }
 }
 
@@ -588,14 +593,14 @@ async function fetchAndRenderGoogleEvents() {
 
         // Permitir importar el evento de Google como una tarea de la app
         const btnImport = item.querySelector('.btn-import-task');
-        btnImport.addEventListener('click', () => {
+        btnImport.addEventListener('click', async () => {
           let time = '';
           if (event.start && event.start.dateTime) {
             const start = new Date(event.start.dateTime);
             time = `${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`;
           }
 
-          storage.addTask({
+          await storage.addTask({
             title: event.summary || 'Evento de Google',
             description: event.description || '',
             date: currentDate,
@@ -604,7 +609,7 @@ async function fetchAndRenderGoogleEvents() {
             googleEventId: event.id
           });
           
-          updateAppView();
+          await updateAppView();
         });
 
         el.calendarEventsList.appendChild(item);
@@ -627,15 +632,15 @@ function formatTime(dateObj) {
 // 6. OPERACIONES DE CONFIGURACIÓN (SETTINGS)
 // ==========================================
 
-function initCalendarAPI() {
-  const settings = storage.getSettings();
+async function initCalendarAPI() {
+  const settings = await storage.getSettings();
   
   // Escuchar eventos de cambio de autenticación de Google
-  window.addEventListener('calendar-auth-changed', (e) => {
+  window.addEventListener('calendar-auth-changed', async (e) => {
     updateGoogleCalendarStatusUI(e.detail.connected);
     // Recargar vista si estamos en tareas
     if (activeTab === 'tasks') {
-      updateAppView();
+      await updateAppView();
     }
   });
 
@@ -656,8 +661,8 @@ function initCalendarAPI() {
   }
 }
 
-function initSettingsOperations() {
-  el.settingsForm.addEventListener('submit', (e) => {
+async function initSettingsOperations() {
+  el.settingsForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const clientId = el.inputClientId.value.trim();
     
@@ -666,7 +671,7 @@ function initSettingsOperations() {
       return;
     }
 
-    storage.saveSettings({ clientId });
+    await storage.saveSettings({ clientId });
     calendar.initCalendarClient(clientId);
     alert('Configuración guardada e inicializada con éxito.');
     renderSettingsView();
@@ -686,16 +691,16 @@ function initSettingsOperations() {
   });
 }
 
-function renderSettingsView() {
-  const settings = storage.getSettings();
+async function renderSettingsView() {
+  const settings = await storage.getSettings();
   el.inputClientId.value = settings.clientId || '';
   
   const connected = calendar.isCalendarConnected();
   updateGoogleCalendarStatusUI(connected);
 }
 
-function updateGoogleCalendarStatusUI(connected) {
-  const settings = storage.getSettings();
+async function updateGoogleCalendarStatusUI(connected) {
+  const settings = await storage.getSettings();
   
   if (!settings.clientId) {
     el.calendarStatus.className = 'status-badge status-disconnected';
@@ -746,9 +751,9 @@ function initSummaryOperations() {
   el.summaryMonthSelect.addEventListener('change', renderMonthlySummary);
 }
 
-function renderMonthlySummary() {
+async function renderMonthlySummary() {
   const selectedMonth = el.summaryMonthSelect.value;
-  const allTasks = storage.getTasks();
+  const allTasks = await storage.getTasks();
   const theme = document.documentElement.getAttribute('data-theme') || 'dark';
   
   summary.initMonthlySummary(allTasks, selectedMonth, theme);
@@ -758,11 +763,28 @@ function renderMonthlySummary() {
 // 8. AUXILIARES / UTILIDADES
 // ==========================================
 
-function updateAppView() {
+async function updateAppView() {
   el.selectedDateText.textContent = formatFullDate(currentDate);
   renderDateSlider();
-  renderTasks();
-  fetchAndRenderGoogleEvents();
+  
+  try {
+    await renderTasks();
+  } catch (error) {
+    console.error("Error al cargar tareas:", error);
+    hideLoadingState();
+    el.tasksProgressText.textContent = 'Error de conexión';
+    el.progressBar.style.width = '0%';
+    el.pendingTasksList.innerHTML = `<div class="empty-state" style="color: #ef4444;"><i data-lucide="alert-circle" style="width: 24px; height: 24px; margin-bottom: 8px;"></i><br>Error al conectar con la base de datos.<br>${error.message}</div>`;
+    el.completedTasksList.innerHTML = '';
+  }
+
+  try {
+    await fetchAndRenderGoogleEvents();
+  } catch (error) {
+    console.error("Error al cargar Google Calendar:", error);
+  }
+  
+  if (window.lucide) window.lucide.createIcons();
 }
 
 function showLoadingState() {
@@ -789,8 +811,8 @@ function escapeHTML(str) {
 }
 
 // Handler de carga global en caso de que Google GIS se cargue después
-window.gisLoaded = function() {
-  const settings = storage.getSettings();
+window.gisLoaded = async function() {
+  const settings = await storage.getSettings();
   if (settings.clientId) {
     calendar.initCalendarClient(settings.clientId);
     renderSettingsView();
